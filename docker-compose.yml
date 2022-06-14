@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  postgresdb:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: disney_db
+    ports:
+      - "5432:5432"
+    volumnes:
+      - ./data_postgres/postgres:/var/libr/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@disney.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    ports:
+      - 5050:80

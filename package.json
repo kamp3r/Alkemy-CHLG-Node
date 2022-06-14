@@ -1,0 +1,31 @@
+{
+  "name": "alkemy-node",
+  "version": "1.0.0",
+  "description": "Desafio de nivelacion para alkemy, basado en Node.js con Express y Sequelize.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "alkemy",
+    "challenge",
+    "node",
+    "express",
+    "sequelize",
+    "db"
+  ],
+  "author": "Martin Omar Heredia",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.20.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "sequelize-cli": "^6.4.1"
+  }
+}
