@@ -1,8 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 
-const MOVIES_TABLE = 'movies';
+const MOVIES_TABLE = 'movie';
 
-const CharacterSchema = {
+const MovieSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -22,28 +22,31 @@ const CharacterSchema = {
   rating: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
-    validate: {
-      min: 0,
-      max: 5,
-    },
   },
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
+  }
 };
 
 class Movie extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsToMany(models.Character, {
+      as: 'characters',
+      through: 'MovieCharacter',
+      attributes: [],
+      foreignKey: 'movieId',
+      otherKey: 'characterId',
+    })
+  }
   static config(sequelize) {
     return {
       sequelize,
       tableName: MOVIES_TABLE,
-      modelName: 'movie',
+      modelName: 'Movie',
       timestamps: false,
     };
   }
 }
 
-module.exports = { MOVIES_TABLE, CharacterSchema, Movie };
+module.exports = { MOVIES_TABLE, MovieSchema, Movie };

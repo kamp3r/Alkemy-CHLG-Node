@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
+const { MOVIES_TABLE } = require('./movies.model');
 
-const CHARACTER_TABLE = 'characters';
+const CHARACTER_TABLE = 'character';
 
 const CharacterSchema = {
   id: {
@@ -29,18 +30,24 @@ const CharacterSchema = {
   image: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
 };
 
 class Character extends Model {
-    static associate(){
-
+    static associate(models){
+      this.belongsToMany(models.Movie, {
+        as: 'movies',
+        attributes: [],
+        through: 'MovieCharacter',
+        foreignKey: 'characterId',
+        otherKey: 'movieId',
+      })
     }
     static config(sequelize){
         return {
             sequelize,
             tableName: CHARACTER_TABLE,
-            modelName: 'character',
+            modelName: 'Character',
             timestamps: false,
         }
     }

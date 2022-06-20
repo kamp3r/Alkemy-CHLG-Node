@@ -1,7 +1,9 @@
 const express = require('express');
-const {config} = require('./src/config/config')
-const appMiddleware = require('./src/middlewares/app.middleware');
+
 const app = express();
+
+const { config } = require('./src/config/config');
+const appMiddleware = require('./src/middlewares/app.middleware');
 
 appMiddleware(app);
 

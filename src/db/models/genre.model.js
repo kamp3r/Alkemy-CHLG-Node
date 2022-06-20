@@ -18,15 +18,31 @@ const GenreSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  movieId: {
+    field: 'movie_id',
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'movie',
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
 };
 
 class Genre extends Model {
-  static associate() {}
+  static associate(models) {
+    this.belongsTo(models.Movie, {
+      as: 'movie',
+      foreignKey: 'movieId',
+      });
+  }
   static config(sequelize) {
     return {
       sequelize,
       tableName: GENRES_TABLE,
-      modelName: 'genre',
+      modelName: 'Genre',
       timestamps: false,
     };
   }
