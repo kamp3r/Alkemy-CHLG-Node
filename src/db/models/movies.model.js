@@ -1,6 +1,7 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
+const { GENRES_TABLE } = require("./genre.model");
 
-const MOVIES_TABLE = 'movie';
+const MOVIES_TABLE = "movie";
 
 const MovieSchema = {
   id: {
@@ -15,7 +16,7 @@ const MovieSchema = {
     unique: true,
   },
   creationDate: {
-    field: 'creation_field',
+    field: "creation_field",
     type: DataTypes.DATE,
     allowNull: false,
   },
@@ -26,24 +27,41 @@ const MovieSchema = {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  genreId: {
+    field: "genre_id",
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: GENRES_TABLE,
+      key: "id",
+    },
+    onUpdate: "CASCADE",
+    onDelete: "SET NULL",
+  },
 };
 
 class Movie extends Model {
   static associate(models) {
     this.belongsToMany(models.Character, {
-      as: 'characters',
-      through: 'MovieCharacter',
-      attributes: [],
-      foreignKey: 'movieId',
-      otherKey: 'characterId',
-    })
+      as: "characters",
+      through: "MovieCharacter",
+      foreignKey: "movieId",
+      otherKey: "characterId",
+    });
+    this.belongsTo(models.Genre, {
+      as: "genre",
+    });
   }
   static config(sequelize) {
     return {
       sequelize,
       tableName: MOVIES_TABLE,
-      modelName: 'Movie',
+      modelName: "Movie",
       timestamps: false,
     };
   }

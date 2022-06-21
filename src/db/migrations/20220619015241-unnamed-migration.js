@@ -7,8 +7,8 @@ const { MoviesCharactersSchema, MOVIES_CHARACTERS_TABLE } = require('../models/m
 module.exports = {
   async up(queryInterface) {
     await queryInterface.createTable(CHARACTER_TABLE, CharacterSchema);
-    await queryInterface.createTable(MOVIES_TABLE, MovieSchema)
     await queryInterface.createTable(GENRES_TABLE, GenreSchema)
+    await queryInterface.createTable(MOVIES_TABLE, MovieSchema)
     await queryInterface.createTable(MOVIES_CHARACTERS_TABLE, MoviesCharactersSchema)
   },
 

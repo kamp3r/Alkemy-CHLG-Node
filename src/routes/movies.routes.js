@@ -12,7 +12,7 @@ const service = new MovieService();
 
 moviesRouter.get('/', async (req, res, next) => {
   try {
-    const Movies = await service.find();
+    const Movies = await service.find(req.query);
     res.json(Movies);
   } catch (err) {
     next(err);

@@ -12,7 +12,7 @@ const service = new CharacterService();
 
 characterRouter.get('/', async (req, res, next) => {
   try {
-    const characters = await service.find();
+    const characters = await service.find(req.query);
     res.json(characters);
   } catch (err) {
     next(err);

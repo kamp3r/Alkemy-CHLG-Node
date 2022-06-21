@@ -1,4 +1,5 @@
-const { models } = require('../lib/sequelize');
+const { models } = require("../lib/sequelize");
+const { Op } = require("sequelize");
 
 class CharacterService {
   async create(data) {
@@ -9,13 +10,36 @@ class CharacterService {
     const newMovie = await models.MovieCharacter.create(data);
     return newMovie;
   }
-  async find() {
-    const characters = await models.Character.findAll();
+  async find(query) {
+    const options = {
+      where: {},
+      attributes: { exclude: ["weight", "age", "history"] },
+    };
+    const { name } = query;
+    if (name) {
+      options.where.name = {[Op.like]:`%${name}%`};
+    }
+    const { age } = query;
+    if (age) {
+      options.where.age = age;
+    }
+    const { movieId } = query;
+    if (movieId) {
+      options.include = [
+        {
+          association: "movies",
+          where: { id: movieId },
+          attributes: { exclude: ["rating"] },
+          through: { attributes: [] },
+        },
+      ];
+    }
+    const characters = await models.Character.findAll(options);
     return characters;
   }
   async findById(id) {
     const character = await models.Character.findByPk(id, {
-      include: [{association: 'movies', through: {attributes: []}}],
+      include: [{ association: "movies", through: { attributes: [] } }],
     });
     return character;
   }

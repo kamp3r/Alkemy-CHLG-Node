@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENRES_TABLE = 'genres';
+const GENRES_TABLE = 'genre';
 
 const GenreSchema = {
   id: {
@@ -17,25 +17,14 @@ const GenreSchema = {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  movieId: {
-    field: 'movie_id',
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'movie',
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
-  },
+  }
 };
 
 class Genre extends Model {
   static associate(models) {
-    this.belongsTo(models.Movie, {
+    this.hasMany(models.Movie, {
       as: 'movie',
-      foreignKey: 'movieId',
+      foreignKey: 'genreId',
       });
   }
   static config(sequelize) {

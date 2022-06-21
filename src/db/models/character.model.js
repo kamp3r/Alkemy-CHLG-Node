@@ -37,7 +37,6 @@ class Character extends Model {
     static associate(models){
       this.belongsToMany(models.Movie, {
         as: 'movies',
-        attributes: [],
         through: 'MovieCharacter',
         foreignKey: 'characterId',
         otherKey: 'movieId',

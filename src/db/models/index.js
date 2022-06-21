@@ -5,14 +5,14 @@ const {MovieCharacter, MoviesCharactersSchema} = require('./movies-characters.mo
 
 const setUpModel = (sequelize) =>{
     Character.init(CharacterSchema, Character.config(sequelize));
-    Movie.init(MovieSchema, Movie.config(sequelize));
     Genre.init(GenreSchema, Genre.config(sequelize));
+    Movie.init(MovieSchema, Movie.config(sequelize));
     MovieCharacter.init(MoviesCharactersSchema, MovieCharacter.config(sequelize));
 
     Character.associate(sequelize.models)
     Movie.associate(sequelize.models)
     Genre.associate(sequelize.models)
-    MovieCharacter.associate(sequelize.models)
+
 }
 
 module.exports = setUpModel;
