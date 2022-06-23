@@ -1,7 +1,7 @@
-const Joi = require('joi');
+const Joi = require('joi')
 
 const id = Joi.number().integer();
-const title = Joi.string().min(4).max(100);
+const title = Joi.string().min(2).max(100);
 const genreId = Joi.number().integer();
 const creationDate = Joi.date();
 const type = Joi.string().valid('movie', 'series');

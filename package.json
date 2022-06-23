@@ -23,9 +23,11 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/boom": "^10.0.0",
+    "@joi/date": "^2.1.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "joi": "^17.6.0",
+    "moment": "^2.29.3",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.20.1"

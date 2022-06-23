@@ -15,15 +15,13 @@ class CharacterService {
       where: {},
       attributes: { exclude: ["weight", "age", "history"] },
     };
-    const { name } = query;
+    const { name, age, movieId } = query;
     if (name) {
       options.where.name = {[Op.like]:`%${name}%`};
     }
-    const { age } = query;
     if (age) {
       options.where.age = age;
     }
-    const { movieId } = query;
     if (movieId) {
       options.include = [
         {

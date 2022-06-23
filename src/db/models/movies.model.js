@@ -1,3 +1,4 @@
+const moment = require("moment");
 const { Model, DataTypes } = require("sequelize");
 const { GENRES_TABLE } = require("./genre.model");
 
@@ -16,8 +17,11 @@ const MovieSchema = {
     unique: true,
   },
   creationDate: {
-    field: "creation_field",
-    type: DataTypes.DATE,
+    field: "creation_date",
+    type: DataTypes.STRING,
+    get(){
+      return moment(this.getDataValue('creationDate')).format('DD-MM-YYYY')
+    },
     allowNull: false,
   },
   rating: {
@@ -52,6 +56,7 @@ class Movie extends Model {
       through: "MovieCharacter",
       foreignKey: "movieId",
       otherKey: "characterId",
+      uniqueKey: ["movieId", "characterId"],
     });
     this.belongsTo(models.Genre, {
       as: "genre",

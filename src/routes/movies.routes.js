@@ -62,7 +62,7 @@ moviesRouter.post(
   );
 
 moviesRouter.patch(
-  '/id',
+  '/:id',
   validationData(getMovieSchema, 'params'),
   validationData(updateMovieSchema, 'body'),
   async (req, res, next) => {

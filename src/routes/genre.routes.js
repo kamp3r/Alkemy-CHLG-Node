@@ -33,7 +33,7 @@ genresRouter.get(
 
 genresRouter.post(
   "/",
-  validationData(getGenreSchema, "body"),
+  validationData(createGenreSchema, "body"),
   async (req, res, next) => {
     try {
       const data = req.body;

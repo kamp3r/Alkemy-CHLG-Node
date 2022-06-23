@@ -40,6 +40,7 @@ class Character extends Model {
         through: 'MovieCharacter',
         foreignKey: 'characterId',
         otherKey: 'movieId',
+        uniqueKey: ["movieId", "characterId"]
       })
     }
     static config(sequelize){

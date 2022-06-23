@@ -1,5 +1,5 @@
-const { models } = require("../lib/sequelize");
-const { Op } = require("sequelize");
+const { models } = require('../lib/sequelize');
+const { Op } = require('sequelize');
 
 class MovieService {
   async create(data) {
@@ -13,27 +13,29 @@ class MovieService {
   async find(query) {
     const options = {
       where: {},
-      attributes: { exclude: ["rating"] },
+      attributes: { exclude: ['rating', 'type', 'genreId'] },
       order: [],
+      include: [],
     };
-    const { title, order, movieId } = query;
+    const { title, order, genreId } = query;
     if (title) {
       options.where.title = { [Op.like]: `%${title}%` };
     }
-    if (order == "ASC") {
-      options.order = [["creationDate", "ASC"]];
-    } else if (order == "DESC") {
-      options.order = [["creationDate", "DESC"]];
+    if (order == 'ASC') {
+      options.order = [['creationDate', 'ASC']];
+    } else if (order == 'DESC') {
+      options.order = [['creationDate', 'DESC']];
     }
-    if (movieId) {
-      options.where.movieId = movieId;
+    if (genreId) {
+      options.where.genreId = genreId;
+      options.include = [{association: 'genre', attributes: { exclude: ['id', 'image']}}]
     }
     const movies = await models.Movie.findAll(options);
     return movies;
   }
   async findById(id) {
     const movie = await models.Movie.findByPk(id, {
-      include: [{ association: "characters", through: { attributes: [] } }],
+      include: [{ association: 'characters', through: { attributes: [] } }],
     });
     return movie;
   }

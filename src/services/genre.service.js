@@ -6,7 +6,7 @@ class GenreService {
     return genre;
   }
   async find() {
-    const genres = await models.Genre.findAll(options);
+    const genres = await models.Genre.findAll();
     return genres;
   }
   async findById(id) {

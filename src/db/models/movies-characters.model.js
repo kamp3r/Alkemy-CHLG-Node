@@ -4,6 +4,7 @@ const { MOVIES_TABLE} = require('./movies.model')
 
 const MOVIES_CHARACTERS_TABLE = 'movies_characters';
 
+
 const MoviesCharactersSchema = {
   id: {
     type: DataTypes.INTEGER,
@@ -35,6 +36,7 @@ const MoviesCharactersSchema = {
   }
 };
 
+
 class MovieCharacter extends Model {
   static associate(models) {
 
@@ -49,4 +51,4 @@ class MovieCharacter extends Model {
   }
 }
 
-module.exports = { MOVIES_CHARACTERS_TABLE, MoviesCharactersSchema, MovieCharacter };
+module.exports = { MOVIES_CHARACTERS_TABLE, MoviesCharactersSchema, MovieCharacter};
