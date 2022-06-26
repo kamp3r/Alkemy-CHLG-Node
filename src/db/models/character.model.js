@@ -1,5 +1,4 @@
 const { Model, DataTypes } = require('sequelize');
-const { MOVIES_TABLE } = require('./movies.model');
 
 const CHARACTER_TABLE = 'character';
 
@@ -16,11 +15,11 @@ const CharacterSchema = {
     unique: true,
   },
   age: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   weight: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   history: {
@@ -40,7 +39,6 @@ class Character extends Model {
         through: 'MovieCharacter',
         foreignKey: 'characterId',
         otherKey: 'movieId',
-        uniqueKey: ["movieId", "characterId"]
       })
     }
     static config(sequelize){

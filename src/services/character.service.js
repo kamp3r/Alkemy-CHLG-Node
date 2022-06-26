@@ -1,23 +1,32 @@
-const { models } = require("../lib/sequelize");
-const { Op } = require("sequelize");
+const boom = require('@hapi/boom');
+const { models } = require('../lib/sequelize');
+const { Op } = require('sequelize');
 
 class CharacterService {
   async create(data) {
-    const character = await models.Character.create(data);
-    return character;
+    try {
+      const character = await models.Character.create(data);
+      return character;
+    } catch (error) {
+      throw boom.conflict('Character already exists');
+    }
   }
   async addMovie(data) {
-    const newMovie = await models.MovieCharacter.create(data);
-    return newMovie;
+    try {
+      const newMovie = await models.MovieCharacter.create(data);
+      return newMovie;
+    } catch (error) {
+      throw boom.conflict('The character already exists in this movie');
+    }
   }
   async find(query) {
     const options = {
       where: {},
-      attributes: { exclude: ["weight", "age", "history"] },
+      attributes: { exclude: ['weight', 'age', 'history'] },
     };
     const { name, age, movieId } = query;
     if (name) {
-      options.where.name = {[Op.like]:`%${name}%`};
+      options.where.name = { [Op.like]: `%${name}%` };
     }
     if (age) {
       options.where.age = age;
@@ -25,9 +34,9 @@ class CharacterService {
     if (movieId) {
       options.include = [
         {
-          association: "movies",
+          association: 'movies',
           where: { id: movieId },
-          attributes: { exclude: ["rating"] },
+          attributes: { exclude: ['rating'] },
           through: { attributes: [] },
         },
       ];
@@ -37,8 +46,19 @@ class CharacterService {
   }
   async findById(id) {
     const character = await models.Character.findByPk(id, {
-      include: [{ association: "movies", through: { attributes: [] } }],
+      attributes: { exclude: ['id'] },
+      include: [
+        {
+          association: 'movies',
+          attributes: ['creationDate', 'title', 'image'],
+          include: [{ association: 'genre', attributes: ['name'] }],
+          through: { attributes: [] },
+        },
+      ],
     });
+    if (!character) {
+      throw boom.notFound('Character not found');
+    }
     return character;
   }
   async update(id, data) {

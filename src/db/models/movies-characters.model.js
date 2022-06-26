@@ -6,16 +6,11 @@ const MOVIES_CHARACTERS_TABLE = 'movies_characters';
 
 
 const MoviesCharactersSchema = {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
   movieId:{
     field: 'movie_id',
     type: DataTypes.INTEGER,
     allowNull: false,
+    primaryKey: true,
     references: {
       model: MOVIES_TABLE,
       key: 'id'
@@ -27,6 +22,7 @@ const MoviesCharactersSchema = {
     field: 'character_id',
     type: DataTypes.INTEGER,
     allowNull: false,
+    primaryKey: true,
     references: {
       model: CHARACTER_TABLE,
       key: 'id'

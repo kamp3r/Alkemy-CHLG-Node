@@ -33,8 +33,10 @@ const MovieSchema = {
     allowNull: false,
   },
   type: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.ENUM({
+      values: ['movie', 'serie']
+  }),
+  defaultValue: 'movie'
   },
   genreId: {
     field: "genre_id",
@@ -56,7 +58,6 @@ class Movie extends Model {
       through: "MovieCharacter",
       foreignKey: "movieId",
       otherKey: "characterId",
-      uniqueKey: ["movieId", "characterId"],
     });
     this.belongsTo(models.Genre, {
       as: "genre",

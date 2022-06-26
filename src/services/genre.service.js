@@ -1,9 +1,13 @@
-const { models } = require("../lib/sequelize");
+const { models } = require('../lib/sequelize');
 
 class GenreService {
   async create(data) {
-    const genre = await models.Genre.create(data);
-    return genre;
+    try {
+      const genre = await models.Genre.create(data);
+      return genre;
+    } catch (error) {
+      throw boom.conflict('Genre already exists');
+    }
   }
   async find() {
     const genres = await models.Genre.findAll();
@@ -11,6 +15,9 @@ class GenreService {
   }
   async findById(id) {
     const genre = await models.Genre.findByPk(id);
+    if(!genre){
+      throw boom.notFound('Genre not found');
+    }
     return genre;
   }
   async update(id, data) {

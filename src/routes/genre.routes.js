@@ -1,78 +1,42 @@
-const genresRouter = require("express").Router();
-const GenreService = require("../services/genre.service");
-const validationData = require("../middlewares/validator.middleware");
+const genresRouter = require('express').Router();
+const validationData = require('../middlewares/validator.middleware');
 const {
   getGenreSchema,
   createGenreSchema,
   updateGenreSchema,
-} = require("../schemas/genre.schema");
-const service = new GenreService();
+} = require('../schemas/genre.schema');
+const {
+  getGenres,
+  getGenreById,
+  createGenre,
+  updateGenre,
+  deleteGenre,
+} = require('../controllers/genre.controller');
+const passport = require('passport');
+const checkRole = require('../middlewares/auth.middleware')
 
-genresRouter.get("/", async (req, res, next) => {
-  try {
-    const genres = await service.find();
-    res.json(genres);
-  } catch (err) {
-    next(err);
-  }
-});
+genresRouter.get('/', getGenres);
 
 genresRouter.get(
-  "/:id",
-  validationData(getGenreSchema, "params"),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const genre = await service.findById(id);
-      res.json(genre);
-    } catch (err) {
-      next(err);
-    }
-  }
+  '/:id',
+  validationData(getGenreSchema, 'params'),
+  getGenreById
 );
 
-genresRouter.post(
-  "/",
-  validationData(createGenreSchema, "body"),
-  async (req, res, next) => {
-    try {
-      const data = req.body;
-      const genre = await service.create(data);
-      res.status(201).json(genre);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+genresRouter.post('/',   passport.authenticate('jwt', { session: false }),
+checkRole('admin'), validationData(createGenreSchema, 'body'), createGenre);
 
 genresRouter.patch(
-  "/:id",
-  validationData(getGenreSchema, "params"),
-  validationData(updateGenreSchema, "body"),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const data = req.body;
-      const genre = await service.update(id, data);
-      res.json(genre);
-    } catch (err) {
-      next(err);
-    }
-  }
+  '/:id',
+  validationData(getGenreSchema, 'params'),
+  validationData(updateGenreSchema, 'body'),
+  updateGenre
 );
 
 genresRouter.delete(
-  "/:id",
-  validationData(getGenreSchema, "params"),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const genre = await service.delete(id);
-      res.json(genre);
-    } catch (err) {
-      next(err);
-    }
-  }
+  '/:id',
+  validationData(getGenreSchema, 'params'),
+  deleteGenre
 );
 
 module.exports = genresRouter;

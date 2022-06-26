@@ -4,7 +4,7 @@ const id = Joi.number().integer();
 const title = Joi.string().min(2).max(100);
 const genreId = Joi.number().integer();
 const creationDate = Joi.date();
-const type = Joi.string().valid('movie', 'series');
+const type = Joi.string().valid('movie', 'serie');
 const rating = Joi.number().integer().min(1).max(5);
 const image = Joi.string().min(2).max(500);
 const characterId = Joi.number().integer();
@@ -18,7 +18,7 @@ const createMovieSchema = Joi.object({
   title: title.required(),
   creationDate: creationDate.required(),
   rating: rating.required(),
-  type: type.required(),
+  type: type,
   image: image.required(),
   genreId: genreId.required(),
 });
