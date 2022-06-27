@@ -59,6 +59,8 @@ docker compose up -d pgadmin
 
 ## Configuracion del archivo .env
 
+Crear un archivo .env el cual contendra nuestras variables de entorno, con los siguientes datos:
+
 ```sh
 #Puerto de ejecución.
 PORT = PUERTO EN EL QUE DESEEMOS CORRER NUESTRO SERVIDOR
